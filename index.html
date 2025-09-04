@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pendidikan - Game Edukasi Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏰</text></svg>">
+</head>
+<body>
+    <div id="game-container">
+        <div id="game-canvas"></div>
+        
+        <!-- UI Overlay -->
+        <div id="ui-overlay">
+            <!-- Health Bar -->
+            <div id="health-container" class="ui-element">
+                <div class="stat-label">HP Pahlawan</div>
+                <div id="health-bar">
+                    <div id="health-fill"></div>
+                    <span id="health-text">100/100</span>
+                </div>
+            </div>
+
+            <!-- Monster Health -->
+            <div id="monster-health-container" class="ui-element">
+                <div class="stat-label">HP Monster</div>
+                <div id="monster-health-bar">
+                    <div id="monster-health-fill"></div>
+                    <span id="monster-health-text">100/100</span>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div id="timer-container" class="ui-element">
+                <div class="stat-label">Waktu</div>
+                <div id="timer">30</div>
+            </div>
+
+            <!-- Score -->
+            <div id="score-container" class="ui-element">
+                <div class="stat-label">Skor</div>
+                <div id="score">0</div>
+            </div>
+
+            <!-- Level Info -->
+            <div id="level-info" class="ui-element">
+                <div class="stat-label">Level</div>
+                <div id="current-level">1</div>
+            </div>
+
+            <!-- Power-up Display -->
+            <div id="powerup-container" class="ui-element">
+                <div class="stat-label">Power-up</div>
+                <div id="active-powerups"></div>
+            </div>
+        </div>
+
+        <!-- Question Modal -->
+        <div id="question-modal" class="modal">
+            <div class="modal-content">
+                <div id="question-header">
+                    <h3 id="subject-name">Matematika</h3>
+                    <div id="question-counter">Pertanyaan 1/10</div>
+                </div>
+                
+                <div id="question-text">
+                    Berapa hasil dari 2 + 2?
+                </div>
+                
+                <div id="question-options">
+                    <button class="option-btn" data-option="0">A. 3</button>
+                    <button class="option-btn" data-option="1">B. 4</button>
+                    <button class="option-btn" data-option="2">C. 5</button>
+                    <button class="option-btn" data-option="3">D. 6</button>
+                </div>
+
+                <div id="hint-container" style="display: none;">
+                    <div class="hint-text"></div>
+                </div>
+
+                <div id="question-timer-bar">
+                    <div id="question-timer-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="modal active">
+            <div class="modal-content start-content">
+                <h1>🏰 Petualangan Pendidikan 🏰</h1>
+                <p class="game-subtitle">Pelajari 8 Mata Pelajaran Sambil Bertarung!</p>
+                
+                <div id="character-selection">
+                    <h3>Pilih Pahlawan Kamu:</h3>
+                    <div class="character-grid">
+                        <div class="character-card" data-character="gatotkaca">
+                            <div class="character-avatar">⚔️</div>
+                            <div class="character-name">Gatotkaca</div>
+                            <div class="character-skill">Skill: Waktu Matematika +10 detik</div>
+                        </div>
+                        <div class="character-card" data-character="cutnyakdien">
+                            <div class="character-avatar">🛡️</div>
+                            <div class="character-name">Cut Nyak Dien</div>
+                            <div class="character-skill">Skill: Shield PKn lebih kuat</div>
+                        </div>
+                        <div class="character-card" data-character="tuanku">
+                            <div class="character-avatar">📚</div>
+                            <div class="character-name">Tuanku Imam Bonjol</div>
+                            <div class="character-skill">Skill: Hint Bahasa Indonesia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="level-selection">
+                    <h3>Pilih Kelas:</h3>
+                    <div class="level-grid">
+                        <button class="level-btn" data-level="1">Kelas 1</button>
+                        <button class="level-btn" data-level="2">Kelas 2</button>
+                        <button class="level-btn" data-level="3">Kelas 3</button>
+                        <button class="level-btn" data-level="4">Kelas 4</button>
+                        <button class="level-btn" data-level="5">Kelas 5</button>
+                        <button class="level-btn" data-level="6">Kelas 6</button>
+                    </div>
+                </div>
+
+                <button id="start-game-btn" class="primary-btn">🚀 Mulai Petualangan!</button>
+            </div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victory-screen" class="modal">
+            <div class="modal-content">
+                <h2>🎉 Selamat! Level Berhasil! 🎉</h2>
+                <div id="victory-stats">
+                    <p>HP Tersisa: <span id="remaining-hp">50</span></p>
+                    <p>Skor Total: <span id="final-score">850</span></p>
+                    <p>Accuracy: <span id="accuracy">85%</span></p>
+                </div>
+                <div class="victory-buttons">
+                    <button id="next-level-btn" class="primary-btn">Level Selanjutnya</button>
+                    <button id="restart-btn" class="secondary-btn">Main Lagi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="modal">
+            <div class="modal-content">
+                <h2>💀 Game Over! 💀</h2>
+                <p>HP Pahlawan habis! Jangan menyerah, coba lagi!</p>
+                <div class="victory-buttons">
+                    <button id="retry-level-btn" class="primary-btn">Ulangi Level</button>
+                    <button id="back-to-menu-btn" class="secondary-btn">Kembali ke Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boss Fight Screen -->
+        <div id="boss-screen" class="modal">
+            <div class="modal-content boss-content">
+                <h2>⚔️ BOSS FIGHT! ⚔️</h2>
+                <div id="boss-character">
+                    <div class="boss-avatar">👹</div>
+                    <div class="boss-name">Raja Monster Kastil</div>
+                    <div id="boss-health-bar">
+                        <div id="boss-health-fill"></div>
+                        <span id="boss-health-text">200/200</span>
+                    </div>
+                </div>
+                <p class="boss-description">Jawab 10 pertanyaan campuran untuk mengalahkan boss!</p>
+                <button id="start-boss-btn" class="primary-btn">⚔️ Mulai Boss Fight!</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>

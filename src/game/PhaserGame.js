@@ -2,33 +2,18 @@
 
 import Phaser from 'phaser';
 
-export class PhaserGameEngine {
-  constructor(gameManager) {
-    this.gameManager = gameManager;
-    this.config = {
-      type: Phaser.AUTO,
-      width: 800,
-      height: 600,
-      parent: 'game-canvas',
-      backgroundColor: '#1a1a2e',
-      scene: {
-        preload: this.preload.bind(this),
-        create: this.create.bind(this),
-        update: this.update.bind(this)
-      },
-      physics: {
-        default: 'arcade',
-        arcade: {
-          debug: false
-        }
-      }
-    };
-    
-    this.game = new Phaser.Game(this.config);
+export class MainGameScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'MainGameScene' });
+    this.gameManager = null;
     this.castle = null;
     this.player = null;
     this.monster = null;
     this.background = null;
+  }
+
+  init(data) {
+    this.gameManager = data.gameManager;
   }
 
   preload() {
@@ -317,6 +302,65 @@ export class PhaserGameEngine {
       yoyo: true,
       ease: 'Bounce.easeInOut'
     });
+  }
+
+  destroy() {
+    if (this.game) {
+      this.game.destroy(true);
+    }
+  }
+}
+
+export class PhaserGameEngine {
+  constructor() {
+    this.config = {
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      parent: 'game-canvas',
+      backgroundColor: '#1a1a2e',
+      scene: MainGameScene,
+      physics: {
+        default: 'arcade',
+        arcade: {
+          debug: false
+        }
+      }
+    };
+    
+    this.game = new Phaser.Game(this.config);
+    this.mainScene = null;
+  }
+
+  init(gameManager) {
+    this.game.events.once('ready', () => {
+      this.mainScene = this.game.scene.getScene('MainGameScene');
+      this.mainScene.init({ gameManager });
+    });
+  }
+
+  playAttackAnimation() {
+    if (this.mainScene) {
+      this.mainScene.playAttackAnimation();
+    }
+  }
+
+  playDefenseAnimation() {
+    if (this.mainScene) {
+      this.mainScene.playDefenseAnimation();
+    }
+  }
+
+  updateLevel(newLevel) {
+    if (this.mainScene) {
+      this.mainScene.updateLevel(newLevel);
+    }
+  }
+
+  showVictoryEffect() {
+    if (this.mainScene) {
+      this.mainScene.showVictoryEffect();
+    }
   }
 
   destroy() {

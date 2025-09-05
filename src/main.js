@@ -24,6 +24,7 @@ class EducationalGame {
 
       // Initialize Phaser engine
       this.phaserEngine = new PhaserGameEngine(this.gameManager);
+      this.phaserEngine.init(this.gameManager);
       
       // Load saved progress
       this.loadSavedProgress();

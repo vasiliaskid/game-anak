@@ -7,7 +7,7 @@ import { StorageManager } from './utils/StorageManager.js';
 
 class EducationalGame {
   constructor() {
-    this.gameManager = new GameManager();
+    this.gameManager = new EnhancedGameManager();
     this.phaserEngine = null;
     this.audioManager = new AudioManager();
     this.storageManager = new StorageManager();
@@ -202,9 +202,6 @@ class EnhancedGameManager extends GameManager {
     if (this.onLevelChanged) this.onLevelChanged(this.currentLevel);
   }
 }
-
-// Replace the GameManager in main with enhanced version
-GameManager.prototype = EnhancedGameManager.prototype;
 
 // Initialize the game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

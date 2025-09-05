@@ -44,12 +44,10 @@ class EducationalGame {
     // Connect GameManager events with Phaser engine
     this.gameManager.onCorrectAnswer = () => {
       this.audioManager.playCorrectAnswer();
-      this.phaserEngine.playAttackAnimation();
     };
 
     this.gameManager.onWrongAnswer = () => {
       this.audioManager.playWrongAnswer();
-      this.phaserEngine.playDefenseAnimation();
     };
 
     this.gameManager.onPowerUp = () => {
@@ -58,12 +56,11 @@ class EducationalGame {
 
     this.gameManager.onLevelComplete = () => {
       this.audioManager.playVictory();
-      this.phaserEngine.showVictoryEffect();
       this.saveGameProgress();
     };
 
     this.gameManager.onLevelChanged = (newLevel) => {
-      this.phaserEngine.updateLevel(newLevel);
+      // Level changed logic can be added here if needed
     };
 
     this.gameManager.onHeal = () => {

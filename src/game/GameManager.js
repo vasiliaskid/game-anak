@@ -428,6 +428,7 @@ export class GameManager {
     
     this.damageMonster(damage);
     this.showMessage("⚔️ Serangan berhasil! Monster terkena damage!");
+    this.playAttackAnimation();
 
     // Check for power-up trigger
     this.checkPowerUpTrigger();
@@ -447,6 +448,7 @@ export class GameManager {
     
     this.damagePlayer(damage);
     this.showMessage("💥 Jawaban salah! Kamu terkena serangan monster!");
+    this.playDefenseAnimation();
     
     this.updateUI();
   }
@@ -685,6 +687,92 @@ export class GameManager {
     // Update score and level
     document.getElementById('score').textContent = this.score;
     document.getElementById('current-level').textContent = this.currentLevel;
+    
+    // Update battle arena characters
+    this.updateBattleArena();
+  }
+
+  updateBattleArena() {
+    const playerCharacter = document.getElementById('player-character');
+    const monsterCharacter = document.getElementById('monster-character');
+    
+    if (playerCharacter && monsterCharacter) {
+      // Update character avatar based on selected character
+      const characterAvatars = {
+        gatotkaca: '⚔️',
+        cutnyakdien: '🛡️',
+        tuanku: '📚'
+      };
+      
+      const playerAvatar = playerCharacter.querySelector('.character-avatar');
+      const playerName = playerCharacter.querySelector('.character-name');
+      
+      if (this.selectedCharacter && playerAvatar && playerName) {
+        playerAvatar.textContent = characterAvatars[this.selectedCharacter] || '⚔️';
+        playerName.textContent = this.getCharacterName(this.selectedCharacter);
+      }
+      
+      // Update monster based on current level
+      const monsterAvatars = ['👹', '👻', '👺', '🧟', '👹', '😈'];
+      const monsterNames = ['Tuyul Nakal', 'Leak Lucu', 'Kuntilanak Imut', 'Pocong Berlompat', 'Buto Ijo', 'Rangda'];
+      
+      const monsterAvatar = monsterCharacter.querySelector('.monster-avatar');
+      const monsterName = monsterCharacter.querySelector('.monster-name');
+      
+      if (monsterAvatar && monsterName) {
+        monsterAvatar.textContent = monsterAvatars[this.currentLevel - 1] || '👹';
+        monsterName.textContent = monsterNames[this.currentLevel - 1] || 'Monster';
+      }
+    }
+  }
+
+  getCharacterName(character) {
+    const names = {
+      gatotkaca: 'Gatotkaca',
+      cutnyakdien: 'Cut Nyak Dien',
+      tuanku: 'Tuanku Imam Bonjol'
+    };
+    return names[character] || 'Pahlawan';
+  }
+
+  playAttackAnimation() {
+    const playerCharacter = document.getElementById('player-character');
+    const monsterCharacter = document.getElementById('monster-character');
+    
+    if (playerCharacter && monsterCharacter) {
+      // Player attacks
+      playerCharacter.classList.add('attacking');
+      
+      setTimeout(() => {
+        // Monster gets hit
+        monsterCharacter.classList.add('hit');
+        playerCharacter.classList.remove('attacking');
+        
+        setTimeout(() => {
+          monsterCharacter.classList.remove('hit');
+        }, 500);
+      }, 300);
+    }
+  }
+
+  playDefenseAnimation() {
+    const playerCharacter = document.getElementById('player-character');
+    const monsterCharacter = document.getElementById('monster-character');
+    
+    if (playerCharacter && monsterCharacter) {
+      // Monster attacks
+      monsterCharacter.classList.add('attacking');
+      
+      setTimeout(() => {
+        // Player gets hit
+        playerCharacter.classList.add('hit');
+        monsterCharacter.classList.remove('attacking');
+        
+        setTimeout(() => {
+          playerCharacter.classList.remove('hit');
+        }, 500);
+      }, 300);
+    }
   }
 
   saveProgress() {

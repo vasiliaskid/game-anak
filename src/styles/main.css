@@ -32,43 +32,72 @@ body {
 /* UI Overlay */
 #ui-overlay {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
     pointer-events: none;
     z-index: 100;
 }
 
-.ui-element {
+/* Consolidated Stats Panel */
+.stats-panel {
     background: rgba(255, 255, 255, 0.95);
-    padding: 8px 16px;
-    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     pointer-events: auto;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.stats-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stats-row:last-child {
+    margin-bottom: 0;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     min-width: 120px;
 }
 
+.stat-icon {
+    font-size: 20px;
+    width: 30px;
+    text-align: center;
+}
+
+.stat-content {
+    flex: 1;
+}
+
 .stat-label {
-    font-size: 12px;
+    font-size: 10px;
     color: #666;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     text-transform: uppercase;
     font-weight: 600;
+    line-height: 1;
 }
 
 /* Health Bars */
-#health-bar, #monster-health-bar, #boss-health-bar {
+.health-bar {
     position: relative;
-    width: 150px;
-    height: 20px;
+    width: 100px;
+    height: 16px;
     background: #e0e0e0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 2px solid #333;
+    border: 1px solid #333;
 }
 
 #health-fill {
@@ -91,42 +120,39 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-/* Timer */
-#timer {
-    font-size: 24px;
+/* Display Elements */
+.timer-display, .score-display, .level-display {
+    font-size: 18px;
     font-weight: 700;
-    color: #e91e63;
-    text-align: center;
+    color: #1976d2;
+    line-height: 1;
 }
 
-/* Score and Level */
-#score, #current-level {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1976d2;
-    text-align: center;
+.timer-display {
+    color: #e91e63;
 }
 
 /* Power-ups */
-#active-powerups {
+.powerups-display {
     display: flex;
     gap: 4px;
-    min-height: 24px;
+    min-height: 20px;
+    align-items: center;
 }
 
 .powerup-icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 10px;
     color: white;
     font-weight: 600;
 }
@@ -167,6 +193,86 @@ body {
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease;
+}
+
+.question-content {
+    max-width: 700px;
+}
+
+/* Battle Arena */
+#battle-arena {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+}
+
+.character-container, .monster-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.battle-character {
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.character-avatar, .monster-avatar {
+    font-size: 3rem;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.character-name, .monster-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.vs-indicator {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #d32f2f;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    border: 3px solid #d32f2f;
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+}
+
+/* Battle Animations */
+.battle-character.attacking {
+    transform: scale(1.1) translateX(10px);
+}
+
+.battle-character.defending {
+    transform: scale(0.9) translateX(-5px);
+    filter: brightness(0.7);
+}
+
+.battle-character.hit {
+    animation: hitShake 0.5s ease;
+}
+
+@keyframes hitShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+.battle-character.victory {
+    animation: victoryBounce 0.8s ease;
+}
+
+@keyframes victoryBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.1); }
 }
 
 .start-content {
@@ -500,6 +606,47 @@ body {
         border: 2px solid #fff;
     }
     
+    .stats-panel {
+        padding: 10px 15px;
+    }
+    
+    .stats-row {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        min-width: 100px;
+    }
+    
+    .stat-icon {
+        font-size: 16px;
+        width: 25px;
+    }
+    
+    .health-bar {
+        width: 80px;
+        height: 14px;
+    }
+    
+    .timer-display, .score-display, .level-display {
+        font-size: 16px;
+    }
+    
+    #battle-arena {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .character-avatar, .monster-avatar {
+        font-size: 2.5rem;
+    }
+    
+    .vs-indicator {
+        font-size: 1.2rem;
+        padding: 8px 12px;
+    }
+    
     .modal-content {
         padding: 20px;
         margin: 20px;
@@ -521,31 +668,6 @@ body {
     #question-options {
         grid-template-columns: 1fr;
     }
-    
-    #ui-overlay {
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        gap: 8px;
-    }
-    
-    .ui-element {
-        padding: 6px 12px;
-        min-width: 100px;
-    }
-    
-    #health-bar, #monster-health-bar {
-        width: 120px;
-        height: 16px;
-    }
-    
-    #timer {
-        font-size: 20px;
-    }
-    
-    #score, #current-level {
-        font-size: 16px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -557,19 +679,25 @@ body {
         grid-template-columns: 1fr;
     }
     
-    #ui-overlay {
+    .stats-row {
         flex-direction: column;
-        align-items: stretch;
+        gap: 10px;
     }
     
-    .ui-element {
+    .stat-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
     }
     
-    .stat-label {
-        margin-bottom: 0;
+    #battle-arena {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .vs-indicator {
+        order: 2;
     }
 }
 

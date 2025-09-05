@@ -15,72 +15,71 @@
         <div id="game-canvas"></div>
         
         <!-- UI Overlay -->
-        <div id="ui-overlay">
-            <!-- Consolidated Game Stats -->
-            <div id="game-stats-panel" class="stats-panel">
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-icon">⚔️</div>
-                        <div class="stat-content">
-                            <div class="stat-label">HP Pahlawan</div>
-                            <div id="health-bar" class="health-bar">
-                                <div id="health-fill"></div>
-                                <span id="health-text">100/100</span>
+
+        <!-- Question Modal -->
+        <div id="question-modal" class="modal">
+            <div class="modal-content">
+                <!-- Integrated Game Stats -->
+                <div id="integrated-stats-panel" class="integrated-stats-panel">
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-icon">⚔️</div>
+                            <div class="stat-content">
+                                <div class="stat-label">HP Pahlawan</div>
+                                <div id="health-bar" class="health-bar">
+                                    <div id="health-fill"></div>
+                                    <span id="health-text">100/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-icon">👹</div>
+                            <div class="stat-content">
+                                <div class="stat-label">HP Monster</div>
+                                <div id="monster-health-bar" class="health-bar">
+                                    <div id="monster-health-fill"></div>
+                                    <span id="monster-health-text">100/100</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="stat-item">
-                        <div class="stat-icon">👹</div>
-                        <div class="stat-content">
-                            <div class="stat-label">HP Monster</div>
-                            <div id="monster-health-bar" class="health-bar">
-                                <div id="monster-health-fill"></div>
-                                <span id="monster-health-text">100/100</span>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-icon">⏰</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Waktu</div>
+                                <div id="timer" class="timer-display">30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Skor</div>
+                                <div id="score" class="score-display">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Level</div>
+                                <div id="current-level" class="level-display">1</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="stat-icon">✨</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Power-up</div>
+                                <div id="active-powerups" class="powerups-display"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-icon">⏰</div>
-                        <div class="stat-content">
-                            <div class="stat-label">Waktu</div>
-                            <div id="timer" class="timer-display">30</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">🏆</div>
-                        <div class="stat-content">
-                            <div class="stat-label">Skor</div>
-                            <div id="score" class="score-display">0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">🎯</div>
-                        <div class="stat-content">
-                            <div class="stat-label">Level</div>
-                            <div id="current-level" class="level-display">1</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-icon">✨</div>
-                        <div class="stat-content">
-                            <div class="stat-label">Power-up</div>
-                            <div id="active-powerups" class="powerups-display"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Question Modal -->
-        <div id="question-modal" class="modal">
-            <div class="modal-content">
                 <!-- Battle Arena -->
                 <div id="battle-arena">
                     <div class="character-container">

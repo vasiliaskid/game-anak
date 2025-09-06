@@ -111,6 +111,9 @@ export class GameManager {
   }
 
   selectLevel(level) {
+    // Clear any existing messages when selecting level
+    this.clearAllMessages();
+    
     // Check if level is unlocked
     const unlockedLevel = this.getUnlockedLevel();
     if (level > unlockedLevel) {
@@ -147,6 +150,9 @@ export class GameManager {
   }
 
   startGame() {
+    // Clear any existing messages when starting game
+    this.clearAllMessages();
+    
     if (!this.selectedCharacter || !this.currentLevel) {
       this.showMessage('Pilih karakter dan level terlebih dahulu!');
       return;
@@ -626,7 +632,11 @@ export class GameManager {
   }
 
   gameOver() {
+    // Clear any existing messages
+    this.clearAllMessages();
+    
     this.gameState = 'gameover';
+    this.hideModal('question-modal');
     this.showModal('gameover-screen');
   }
 
@@ -644,19 +654,29 @@ export class GameManager {
   }
 
   retryLevel() {
+    // Clear all messages when retrying
+    this.clearAllMessages();
+    
     this.hideModal('gameover-screen');
     this.initializeLevel();
     this.startSubjectRound();
   }
 
   restartGame() {
+    // Clear all messages when restarting
+    this.clearAllMessages();
+    
     this.hideModal('victory-screen');
     this.backToMenu();
   }
 
   backToMenu() {
+    // Clear all existing messages first
+    this.clearAllMessages();
+    
     this.hideModal('gameover-screen');
     this.hideModal('victory-screen');
+    this.hideModal('question-modal');
     this.gameState = 'menu';
     this.showModal('start-screen');
     this.currentLevel = 1;
@@ -671,6 +691,15 @@ export class GameManager {
     });
     
     this.updateStartButton();
+  }
+
+  clearAllMessages() {
+    // Remove all temporary message elements
+    document.querySelectorAll('[data-temp-message]').forEach(el => {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
   }
 
   updateUI() {
@@ -816,6 +845,7 @@ export class GameManager {
   showMessage(message) {
     // Create a temporary message display
     const messageEl = document.createElement('div');
+    messageEl.setAttribute('data-temp-message', 'true');
     messageEl.textContent = message;
     messageEl.style.cssText = `
       position: fixed;

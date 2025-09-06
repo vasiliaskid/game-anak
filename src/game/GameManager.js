@@ -427,10 +427,6 @@ export class GameManager {
     // Track this timer
     this.messageTimers.push(timerId);
   }
-      this.hideModal('question-modal');
-      this.proceedToNextQuestion();
-    }, 2000);
-  }
 
   handleCorrectAnswer() {
     this.correctStreak++;
@@ -648,7 +644,6 @@ export class GameManager {
     
     this.gameState = 'gameover';
     this.hideModal('question-modal');
-    this.hideModal('boss-screen');
     this.showModal('gameover-screen');
   }
 

@@ -644,6 +644,7 @@ export class GameManager {
     
     this.gameState = 'gameover';
     this.hideModal('question-modal');
+    this.hideModal('boss-screen');
     this.showModal('gameover-screen');
   }
 

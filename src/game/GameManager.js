@@ -18,6 +18,7 @@ export class GameManager {
     this.timeLimit = 30;
     this.timeRemaining = 30;
     this.timer = null;
+    this.messageTimers = []; // Track all message timers
     
     // Subjects order
     this.subjects = [
@@ -415,7 +416,17 @@ export class GameManager {
     }
 
     // Show explanation briefly, then proceed
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
+      // Only proceed if still in playing state
+      if (this.gameState === 'playing') {
+        this.hideModal('question-modal');
+        this.proceedToNextQuestion();
+      }
+    }, 2000);
+    
+    // Track this timer
+    this.messageTimers.push(timerId);
+  }
       this.hideModal('question-modal');
       this.proceedToNextQuestion();
     }, 2000);
@@ -637,6 +648,7 @@ export class GameManager {
     
     this.gameState = 'gameover';
     this.hideModal('question-modal');
+    this.hideModal('boss-screen');
     this.showModal('gameover-screen');
   }
 
@@ -674,10 +686,22 @@ export class GameManager {
     // Clear all existing messages first
     this.clearAllMessages();
     
+    // Force hide all modals
     this.hideModal('gameover-screen');
     this.hideModal('victory-screen');
     this.hideModal('question-modal');
+    this.hideModal('boss-screen');
+    
+    // Reset game state completely
     this.gameState = 'menu';
+    this.playerHP = 100;
+    this.monsterHP = 80;
+    this.score = 0;
+    this.correctStreak = 0;
+    this.currentSubjectIndex = 0;
+    this.currentQuestionIndex = 0;
+    this.activePowerups.clear();
+    
     this.showModal('start-screen');
     this.currentLevel = 1;
     this.selectedCharacter = null;
@@ -700,6 +724,18 @@ export class GameManager {
         el.parentNode.removeChild(el);
       }
     });
+    
+    // Clear all message timers
+    this.messageTimers.forEach(timerId => {
+      clearTimeout(timerId);
+    });
+    this.messageTimers = [];
+    
+    // Clear question timer if running
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   }
 
   updateUI() {
@@ -864,10 +900,18 @@ export class GameManager {
     
     document.body.appendChild(messageEl);
     
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       if (messageEl.parentNode) {
         messageEl.parentNode.removeChild(messageEl);
       }
+      // Remove timer from tracking array
+      const index = this.messageTimers.indexOf(timerId);
+      if (index > -1) {
+        this.messageTimers.splice(index, 1);
+      }
     }, 2000);
+    
+    // Track this timer
+    this.messageTimers.push(timerId);
   }
 }
